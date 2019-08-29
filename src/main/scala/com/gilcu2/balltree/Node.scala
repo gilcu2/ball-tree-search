@@ -13,18 +13,29 @@ object Node {
     Node(Ball(b1.center, distance(b1.center, b2.center) + Math.min(b1.radio, b2.radio)))
   }
 
+  def childToString[T](possibleNode: Option[Node[T]]): String = {
+    if (possibleNode.nonEmpty) possibleNode.get.ball.toString else ""
+  }
+
 }
 
-case class Node[T](ball: Ball[T], parent: Option[Node[T]] = None,
-                   left: Option[Node[T]] = None, right: Option[Node[T]] = None) {
+case class Node[T](ball: Ball[T], private var parent: Option[Node[T]] = None,
+                   private var left: Option[Node[T]] = None, private var right: Option[Node[T]] = None) {
+
+  import Node._
 
   def insert(ball: Ball[T])(implicit distance: (T, T) => Double): Node[T] = {
     (left, right) match {
 
       case (None, None) =>
-        val newLeft = Some(Node(ball))
-        val newRight = Some(this)
-        Node.bestBall(ball, this.ball)
+        val newRoot = Node.bestBall(this.ball, ball)
+        val newLeft = this
+        newLeft.parent = Some(newRoot)
+        newRoot.left = Some(newLeft)
+
+        val newRight = Node(ball, parent = Some(newRoot))
+        newRoot.right = Some(newRight)
+        newRoot
 
       case (None, _) =>
         val newLeft = Some(Node(ball))
@@ -38,12 +49,11 @@ case class Node[T](ball: Ball[T], parent: Option[Node[T]] = None,
         this
     }
 
-
   }
 
   def getInside(ball: Ball[T])(implicit distance: (T, T) => Double): Seq[Ball[T]] = {
-    val isInside = ball.contains(this.ball)
-    (isInside, left, right) match {
+    val intercept = ball.isIntercepting(this.ball)
+    (intercept, left, right) match {
       case (false, _, _) =>
         Seq()
       case (true, None, None) =>
@@ -54,5 +64,13 @@ case class Node[T](ball: Ball[T], parent: Option[Node[T]] = None,
         insideLeft ++ insideRight
     }
   }
+
+  def getParent: Option[Node[T]] = this.parent
+
+  def getLeft: Option[Node[T]] = this.left
+
+  def getRight: Option[Node[T]] = this.right
+
+  override def toString: String = s"Node(${this.ball},${childToString(this.left)},${childToString(this.right)} )"
 
 }

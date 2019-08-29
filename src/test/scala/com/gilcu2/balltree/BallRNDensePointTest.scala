@@ -16,11 +16,32 @@ class BallRNDensePointTest extends FlatSpec with Matchers with GivenWhenThen {
     ball1.contains(ball2) shouldBe true
   }
 
-  it should "return that ball is not contained" in {
+  it should "return that ball is not contained when is the inverse relation" in {
     val ball1 = Ball(RNDensePoint(0, 0), 3)
     val ball2 = Ball(RNDensePoint(0, 1), 1)
 
     ball2.contains(ball1) shouldBe false
+  }
+
+  it should "return that ball is not contained when are separated" in {
+    val ball1 = Ball(RNDensePoint(0, 0), 1)
+    val ball2 = Ball(RNDensePoint(0, 3), 1)
+
+    ball2.contains(ball1) shouldBe false
+  }
+
+  it should "return that ball intercept" in {
+    val ball1 = Ball(RNDensePoint(0, 0), 1)
+    val ball2 = Ball(RNDensePoint(0, 0.5), 1)
+
+    ball2.isIntercepting(ball1) shouldBe true
+  }
+
+  it should "return that ball are not intercepting when they are separated" in {
+    val ball1 = Ball(RNDensePoint(0, 0), 1)
+    val ball2 = Ball(RNDensePoint(0, 3), 1)
+
+    ball2.isIntercepting(ball1) shouldBe false
   }
 
 }
