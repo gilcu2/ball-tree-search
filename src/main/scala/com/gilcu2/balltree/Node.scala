@@ -13,6 +13,11 @@ object Node {
     Node(Ball(b1.center, distance(b1.center, b2.center) + Math.min(b1.radio, b2.radio)))
   }
 
+  def bestChild[T](newBall: Ball[T], leftBall: Ball[T], rightBall: Ball[T])(implicit distance: (T, T) => Double)
+  : (Boolean, Ball[T]) = {
+    val posibleLeftRadio = distance(newBall.center, leftBall.center)
+  }
+
   def childToString[T](possibleNode: Option[Node[T]]): String = {
     if (possibleNode.nonEmpty) possibleNode.get.ball.toString else ""
   }
@@ -36,14 +41,6 @@ case class Node[T](ball: Ball[T], private var parent: Option[Node[T]] = None,
         val newRight = Node(ball, parent = Some(newRoot))
         newRoot.right = Some(newRight)
         newRoot
-
-      case (None, _) =>
-        val newLeft = Some(Node(ball))
-        val newRight = Some(this)
-        this
-
-      case (_, None) =>
-        this.copy(right = Some(Node(ball)))
 
       case _ =>
         this
