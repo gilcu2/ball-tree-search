@@ -16,9 +16,7 @@ class BallTree[T](distance: (T, T) => Double, b: Ball[T]) {
 
   def insert(b: Ball[T]): Unit = {
     nElements += 1
-    println(root)
     root = root.insert(b)
-    println(root)
   }
 
   def getInside(b: Ball[T]): Seq[Ball[T]] = root.getInside(b)

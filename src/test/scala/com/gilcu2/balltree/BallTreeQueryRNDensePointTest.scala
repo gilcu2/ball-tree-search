@@ -24,7 +24,7 @@ class BallTreeQueryRNDensePointTest extends FlatSpec with Matchers with GivenWhe
     val ballTree = BallTree(RNDistances.euclidean, RNDensePoint(0, 0))
     ballTree.insert(RNDensePoint(2, 0))
 
-    ballTree.getInside(Ball(RNDensePoint(3, 0), 1)) shouldBe Seq(RNDensePoint(2, 0))
+    ballTree.getInside(Ball(RNDensePoint(3, 0), 1)) shouldBe Seq(Ball(RNDensePoint(2, 0)))
   }
 
 }
