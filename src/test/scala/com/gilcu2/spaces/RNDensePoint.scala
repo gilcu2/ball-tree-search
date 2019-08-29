@@ -1,6 +1,6 @@
 package com.gilcu2.spaces
 
-import com.gilcu2.balltree.Point
+import com.gilcu2.balltree._
 
 import scala.math.sqrt
 
@@ -17,11 +17,11 @@ object RNDensePoint {
 
   def apply(coordinates: Double*): RNDensePoint = new RNDensePoint(coordinates.toVector)
 
-  implicit def toPoint(rnp: RNDensePoint): Point[RNDensePoint] = Point(rnp)
+  implicit def toBall(rnp: RNDensePoint): Ball[RNDensePoint] = Ball(rnp)
 
 }
 
-class RNDensePoint(val coordinates: Vector[Double]) {
+case class RNDensePoint(val coordinates: Vector[Double]) {
 
   def +(other: RNDensePoint): RNDensePoint =
     new RNDensePoint(this.coordinates.zip(other.coordinates).map { case (c1, c2) => c1 + c2 })
@@ -36,5 +36,5 @@ class RNDensePoint(val coordinates: Vector[Double]) {
 
   def norm: Double = sqrt(this.coordinates.map(c => c * c).sum)
 
-  override def toString: String = s"(${coordinates.mkString(",")})"
+  override def toString: String = s"RN(${coordinates.mkString(",")})"
 }
