@@ -4,13 +4,6 @@ import com.gilcu2.balltree._
 
 import scala.math.sqrt
 
-object RNDistances {
-
-  def euclidean(p1: RNDensePoint, p2: RNDensePoint) = (p1 - p2).norm
-}
-
-//TODO Analyze the case when the lengths are different
-
 object RNDensePoint {
 
   def apply(coordinates: Vector[Double]): RNDensePoint = new RNDensePoint(coordinates)

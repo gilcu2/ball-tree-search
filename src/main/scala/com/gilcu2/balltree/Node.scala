@@ -1,5 +1,7 @@
 package com.gilcu2.balltree
 
+import com.gilcu2.spaces.Space
+
 
 object Node {
 
@@ -7,16 +9,16 @@ object Node {
                left: Option[Node[T]] = None, right: Option[Node[T]] = None): Node[T] =
     new Node(b, parent, left, right)
 
-  def bestBall[T](b1: Ball[T], b2: Ball[T])(implicit distance: (T, T) => Double): Node[T] = {
+  def bestBall[T](b1: Ball[T], b2: Ball[T])(implicit space: Space[T]): Node[T] = {
     if (b1.contains(b2)) Node(b1)
     else if (b2.contains(b1)) Node(b2)
-    Node(Ball(b1.center, distance(b1.center, b2.center) + Math.min(b1.radio, b2.radio)))
+    Node(Ball(b1.center, space.distance(b1.center, b2.center) + Math.min(b1.radio, b2.radio)))
   }
 
-  def bestChild[T](newBall: Ball[T], leftBall: Ball[T], rightBall: Ball[T])(implicit distance: (T, T) => Double)
-  : (Boolean, Ball[T]) = {
-    val posibleLeftRadio = distance(newBall.center, leftBall.center)
-  }
+  //  def bestChild[T](newBall: Ball[T], leftBall: Ball[T], rightBall: Ball[T])(implicit distance: (T, T) => Double)
+  //  : (Boolean, Ball[T]) = {
+  //    val posibleLeftRadio = distance(newBall.center, leftBall.center)
+  //  }
 
   def childToString[T](possibleNode: Option[Node[T]]): String = {
     if (possibleNode.nonEmpty) possibleNode.get.ball.toString else ""
@@ -29,7 +31,7 @@ case class Node[T](ball: Ball[T], private var parent: Option[Node[T]] = None,
 
   import Node._
 
-  def insert(ball: Ball[T])(implicit distance: (T, T) => Double): Node[T] = {
+  def insert(ball: Ball[T])(implicit space: Space[T]): Node[T] = {
     (left, right) match {
 
       case (None, None) =>
@@ -48,7 +50,7 @@ case class Node[T](ball: Ball[T], private var parent: Option[Node[T]] = None,
 
   }
 
-  def getInside(ball: Ball[T])(implicit distance: (T, T) => Double): Seq[Ball[T]] = {
+  def getInside(ball: Ball[T])(implicit space: Space[T]): Seq[Ball[T]] = {
     val intercept = ball.isIntercepting(this.ball)
     (intercept, left, right) match {
       case (false, _, _) =>
