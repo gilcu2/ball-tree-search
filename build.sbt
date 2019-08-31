@@ -1,3 +1,13 @@
+import AcceptanceTest._
+import IntegrationTest._
+import UnitTest._
+
+organization := "com.gilcu2"
+
+UnitTestSettings ++ IntegrationTestSettings ++ AcceptanceTestSettings
+lazy val TestAll: Configuration = config("test-all").extend(AcceptanceTest.AcceptanceTestConfig)
+configs(IntegrationTestConfig, AcceptanceTestConfig, TestAll)
+
 name := "ball-tree-search"
 
 version := "0.1"
