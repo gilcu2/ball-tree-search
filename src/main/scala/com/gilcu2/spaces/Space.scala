@@ -1,10 +1,15 @@
 package com.gilcu2.spaces
 
+case class R2Point(x: Double, y: Double)
+
 trait Space[T] {
 
   def distance(p1: T, p2: T): Double
 
   def moveToward(from: T, to: T, distance: Double): T
+
+  def r2Projection(p: T): R2Point
+
 }
 
 object EuclideanSpace extends Space[RNDensePoint] {
@@ -16,5 +21,7 @@ object EuclideanSpace extends Space[RNDensePoint] {
     val norm = (to - from).norm
     from + (to - from) * (distance / norm)
   }
+
+  override def r2Projection(p: RNDensePoint): R2Point = R2Point(p.coordinates(0), p.coordinates(1))
 
 }
