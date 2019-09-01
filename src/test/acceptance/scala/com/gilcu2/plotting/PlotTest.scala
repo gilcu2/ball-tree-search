@@ -2,6 +2,7 @@ package com.gilcu2.plotting
 
 import com.gilcu2.balltree.Ball
 import com.gilcu2.spaces.{EuclideanSpace, RNDensePoint}
+import doodle.core.Color
 import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
 
 class PlotTest extends FlatSpec with Matchers with GivenWhenThen {
@@ -15,7 +16,7 @@ class PlotTest extends FlatSpec with Matchers with GivenWhenThen {
     val board = new Board
 
     board.draw(balls)
-    board.show(wait = true)
+    board.show(Seq(Color.black, Color.red), wait = true)
   }
 
 }

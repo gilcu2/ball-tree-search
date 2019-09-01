@@ -1,6 +1,7 @@
 package com.gilcu2.plotting
 
 import com.gilcu2.spaces.R2Point
+import doodle.core.{Color, UnsignedByte}
 import doodle.image._
 
 

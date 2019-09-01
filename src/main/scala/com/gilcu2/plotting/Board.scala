@@ -32,11 +32,11 @@ class Board {
     range = range.update(newRange)
   }
 
-  def show(width: Double = 1000, wait: Boolean = false): Unit = {
+  def show(colors: Seq[Color], width: Double = 1000, wait: Boolean = false): Unit = {
 
     implicit val view = new View(width, range)
 
-    val images = figures.map(_.toImage).toList
+    val images = figures.zip(colors).map { case (f, c) => f.toImage.strokeColor(c) }.toList
 
     images.allOn.draw()
     if (wait)
@@ -55,7 +55,7 @@ object Board {
     val board = new Board
 
     board.draw(balls)
-    board.show()
+    board.show(Seq(Color.black, Color.red))
 
   }
 
