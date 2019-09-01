@@ -1,4 +1,4 @@
-package com.gilcu2.interfaces
+package com.gilcu2.plotting
 
 import com.gilcu2.balltree.Ball
 import com.gilcu2.spaces.{EuclideanSpace, RNDensePoint}
@@ -10,10 +10,12 @@ class PlotTest extends FlatSpec with Matchers with GivenWhenThen {
 
   implicit val space = EuclideanSpace
 
-  it should "paint the ball projection" in {
+  ignore should "paint the ball projection" in {
     val balls = Seq(Ball(RNDensePoint(0, 0), 1), Ball(RNDensePoint(2, 0), 1))
+    val board = new Board
 
-    Plot.paint(balls)
+    board.draw(balls)
+    board.show(wait = true)
   }
 
 }
