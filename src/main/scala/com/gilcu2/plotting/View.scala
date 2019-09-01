@@ -6,7 +6,7 @@ class View(width: Double = 1000, range: R2Range) {
 
   val mx = width / (range.xMax - range.xMin)
   val my = width / (range.yMax - range.yMin)
-  val m = math.max(mx, my)
+  val m = math.min(mx, my)
   val x0 = -m * range.xMin
   val y0 = -m * range.yMin
 

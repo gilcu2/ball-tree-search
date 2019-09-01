@@ -56,16 +56,11 @@ class BallsOperationsTest extends FlatSpec with Matchers with GivenWhenThen {
       Ball(RNDensePoint(3, 0), 1)
     )
 
-    val board = new Board()
-    board.draw(balls)
-    board.show(Seq(Color.black, Color.blue, Color.red, Color.orange), wait = true)
-
     val (part1, part2) = computePartition(balls)
 
     part1 shouldBe Seq(Ball(RNDensePoint(-1, 0), 1), Ball(RNDensePoint(-2, 0), 1))
     part2 shouldBe Seq(Ball(RNDensePoint(0, 3), 1), Ball(RNDensePoint(4, 0), 1))
 
   }
-
 
 }

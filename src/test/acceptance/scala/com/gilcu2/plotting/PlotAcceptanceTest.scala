@@ -5,7 +5,7 @@ import com.gilcu2.spaces.{EuclideanSpace, RNDensePoint}
 import doodle.core.Color
 import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
 
-class PlotTest extends FlatSpec with Matchers with GivenWhenThen {
+class PlotAcceptanceTest extends FlatSpec with Matchers with GivenWhenThen {
 
   behavior of "Plot"
 
@@ -17,6 +17,8 @@ class PlotTest extends FlatSpec with Matchers with GivenWhenThen {
 
     board.draw(balls)
     board.show(Seq(Color.black, Color.red), wait = true)
+
+    balls.size shouldBe 2
   }
 
 }
