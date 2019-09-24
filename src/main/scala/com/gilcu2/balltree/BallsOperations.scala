@@ -4,6 +4,18 @@ import com.gilcu2.spaces.Space
 
 object BallsOperations {
 
+  // Using https://stackoverflow.com/questions/33532860/merge-two-spheres-to-get-a-new-one
+  def computeBoundingBall[T](b1: Ball[T], b2: Ball[T])(implicit space: Space[T]): Ball[T] =
+    if (b1.contains(b2)) b1
+    else if (b2.contains(b1)) b2
+    else {
+      val centersDistance = space.distance(b1.center, b2.center)
+      val radio = (b1.radio + b2.radio + centersDistance) / 2
+      val center = space.moveToward(b1.center, b2.center, radio - b1.radio)
+      Ball(center, radio)
+    }
+
+
   def computeBoundingBall[T](balls: Seq[Ball[T]])(implicit space: Space[T]): Ball[T] = {
 
     val (b1, b2) = approximateFarthestPair(balls)
@@ -24,6 +36,16 @@ object BallsOperations {
     }
 
     boundingBall
+  }
+
+  def findLargestMaximumDistanceFrom[T](p: T, balls: Seq[Ball[T]])(implicit space: Space[T]): Ball[T] =
+    balls.map(b1 => (b1, b1.maximumDistance(p))).maxBy(_._2)._1
+
+  def midPoint[T](b1: Ball[T], b2: Ball[T])(implicit space: Space[T]): T = {
+    val distance = b1.minimumDistance(b2)
+    val b1NearestPoint = space.moveToward(b1.center, b2.center, b1.radio)
+    val b2NearestPoint = space.moveToward(b2.center, b1.center, b2.radio)
+    space.moveToward(b1NearestPoint, b2NearestPoint, distance / 2)
   }
 
   def computePartition[T](balls: Seq[Ball[T]])(implicit space: Space[T]): (Seq[Ball[T]], Seq[Ball[T]]) = {
@@ -49,16 +71,6 @@ object BallsOperations {
   def findLargestMinimumDistanceFrom[T](b: Ball[T], balls: Seq[Ball[T]])(implicit space: Space[T]): Ball[T] = {
     val tmp = balls.map(b1 => (b1, b.minimumDistance(b1)))
     tmp.maxBy(_._2)._1
-  }
-
-  def findLargestMaximumDistanceFrom[T](p: T, balls: Seq[Ball[T]])(implicit space: Space[T]): Ball[T] =
-    balls.map(b1 => (b1, b1.maximumDistance(p))).maxBy(_._2)._1
-
-  def midPoint[T](b1: Ball[T], b2: Ball[T])(implicit space: Space[T]): T = {
-    val distance = b1.minimumDistance(b2)
-    val b1NearestPoint = space.moveToward(b1.center, b2.center, b1.radio)
-    val b2NearestPoint = space.moveToward(b2.center, b1.center, b2.radio)
-    space.moveToward(b1NearestPoint, b2NearestPoint, distance / 2)
   }
 
 }

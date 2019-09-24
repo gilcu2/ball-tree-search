@@ -5,15 +5,15 @@ import com.gilcu2.spaces.Space
 
 object Node {
 
-  def apply[T](b: Ball[T], parent: Option[Node[T]] = None,
+  def apply[T](id: Int, b: Ball[T], parent: Option[Node[T]] = None,
                left: Option[Node[T]] = None, right: Option[Node[T]] = None): Node[T] =
-    new Node(b, parent, left, right)
+    new Node(id, b, parent, left, right)
 
-  def bestBall[T](b1: Ball[T], b2: Ball[T])(implicit space: Space[T]): Node[T] = {
-    if (b1.contains(b2)) Node(b1)
-    else if (b2.contains(b1)) Node(b2)
-    Node(Ball(b1.center, space.distance(b1.center, b2.center) + Math.min(b1.radio, b2.radio)))
-  }
+  //  def bestBall[T](b1: Ball[T], b2: Ball[T])(implicit space: Space[T]): Node[T] = {
+  //    if (b1.contains(b2)) Node(b1)
+  //    else if (b2.contains(b1)) Node(b2)
+  //    Node(Ball(b1.center, space.distance(b1.center, b2.center) + Math.min(b1.radio, b2.radio)))
+  //  }
 
   //  def bestChild[T](newBall: Ball[T], leftBall: Ball[T], rightBall: Ball[T])(implicit distance: (T, T) => Double)
   //  : (Boolean, Ball[T]) = {
@@ -26,29 +26,28 @@ object Node {
 
 }
 
-case class Node[T](ball: Ball[T], private var parent: Option[Node[T]] = None,
+case class Node[T](id: Int, ball: Ball[T], private var parent: Option[Node[T]] = None,
                    private var left: Option[Node[T]] = None, private var right: Option[Node[T]] = None) {
 
   import Node._
 
-  def insert(ball: Ball[T])(implicit space: Space[T]): Node[T] = {
-    (left, right) match {
-
-      case (None, None) =>
-        val newRoot = Node.bestBall(this.ball, ball)
-        val newLeft = this
-        newLeft.parent = Some(newRoot)
-        newRoot.left = Some(newLeft)
-
-        val newRight = Node(ball, parent = Some(newRoot))
-        newRoot.right = Some(newRight)
-        newRoot
-
-      case _ =>
-        this
-    }
-
-  }
+  //  def insert(ball: Ball[T])(implicit space: Space[T]): Node[T] = {
+  //    (left, right) match {
+  //
+  //      case (None, None) =>
+  //        val newRoot = Node.bestBall(this.ball, ball)
+  //        val newLeft = this
+  //        newLeft.parent = Some(newRoot)
+  //        newRoot.left = Some(newLeft)
+  //
+  //        val newRight = Node(ball, parent = Some(newRoot))
+  //        newRoot.right = Some(newRight)
+  //        newRoot
+  //
+  //      case _ =>
+  //        this
+  //    }
+  //  }
 
   def getInside(ball: Ball[T])(implicit space: Space[T]): Seq[Ball[T]] = {
     val intercept = ball.isIntercepting(this.ball)

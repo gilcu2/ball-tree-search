@@ -15,20 +15,18 @@ class BallTree[T](space: Space[T], balls: Ball[T]*) {
 
   implicit val s = space
 
-  private var nElements = 1
-  private var root = Node(balls(0))
+  val leafs = balls.map(b => {
+    Node(idGenerator, b)
+  })
 
-  def insert(b: Ball[T]): Unit = {
-    nElements += 1
-    root = root.insert(b)
+
+  //  def getInside(b: Ball[T]): Seq[Ball[T]] = root.getInside(b)
+
+  var idGenerator = 0
+
+  private def newId: Int = {
+    idGenerator += 1
+    idGenerator
   }
-
-  def getInside(b: Ball[T]): Seq[Ball[T]] = root.getInside(b)
-
-  def size: Int = nElements
-
-  def getRoot: Node[T] = this.root
-
-
 
 }
