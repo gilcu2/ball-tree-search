@@ -24,10 +24,10 @@ object BallTree {
   : NodePair[T] = {
     val size = nodes.size
     assert(size > 1)
-
-    var pair = NodePair(nodes(0), nodes(1))
+    val keys = nodes.keys.toArray
+    var pair = NodePair(nodes(keys(0)), nodes(keys(1)))
     for (i <- 0 until size; j <- i + 1 until size) {
-      val newPair = NodePair(nodes(i), nodes(j))
+      val newPair = NodePair(nodes(keys(i)), nodes(keys(j)))
       if (newPair.volume < pair.volume)
         pair = newPair
     }
@@ -43,9 +43,10 @@ class BallTree[T](space: Space[T], balls: Ball[T]*) {
   assert(balls.nonEmpty)
 
   implicit val s: Space[T] = space
+  private var nodeIdGenerator = -1
 
   val root = createTreeBottomUp
-  var idGenerator = 0
+
 
   //  def getInside(b: Ball[T]): Seq[Ball[T]] = root.getInside(b)
 
@@ -54,15 +55,16 @@ class BallTree[T](space: Space[T], balls: Ball[T]*) {
     def createNotIncluded: mutable.HashMap[Int, Node[T]] = {
       val nodesNotIncluded = mutable.HashMap[Int, Node[T]]()
       balls.foreach(b => {
-        val id = idGenerator
+        val id: Int = getNewId
         nodesNotIncluded(id) = Node(id, b)
       })
       nodesNotIncluded
     }
 
     def findPairAndUpdate(nodesNotIncluded: mutable.HashMap[Int, Node[T]]): Unit = {
+      val id = getNewId
       val minimumPair = findMinimumVolumePair(nodesNotIncluded)
-      val newNode = Node(idGenerator, minimumPair.boundBall,
+      val newNode = Node(id, minimumPair.boundBall,
         left = Some(nodesNotIncluded(minimumPair.id1)),
         right = Some(nodesNotIncluded(minimumPair.id2))
       )
@@ -71,6 +73,8 @@ class BallTree[T](space: Space[T], balls: Ball[T]*) {
 
       nodesNotIncluded.remove(minimumPair.id1)
       nodesNotIncluded.remove(minimumPair.id2)
+
+      nodesNotIncluded(id) = newNode
     }
 
     val nodesNotIncluded = createNotIncluded
@@ -80,9 +84,15 @@ class BallTree[T](space: Space[T], balls: Ball[T]*) {
     nodesNotIncluded.head._2
   }
 
-  private def newId: Int = {
-    idGenerator += 1
-    idGenerator
+  private def getNewId: Int = {
+    nodeIdGenerator += 1
+    nodeIdGenerator
   }
+
+  def height(node: Node[T]): Int = node match {
+    case Node(_, _, _, None, None)
+  }
+
+  def printLevel
 
 }

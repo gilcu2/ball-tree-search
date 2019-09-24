@@ -20,8 +20,8 @@ object Node {
   //    val posibleLeftRadio = distance(newBall.center, leftBall.center)
   //  }
 
-  def childToString[T](possibleNode: Option[Node[T]]): String = {
-    if (possibleNode.nonEmpty) possibleNode.get.ball.toString else ""
+  def relatedId[T](possibleNode: Option[Node[T]]): String = {
+    if (possibleNode.nonEmpty) possibleNode.get.id.toString else ""
   }
 
 }
@@ -63,6 +63,7 @@ case class Node[T](id: Int, ball: Ball[T], var parent: Option[Node[T]] = None,
     }
   }
 
-  override def toString: String = s"Node(${this.ball},${childToString(this.left)},${childToString(this.right)} )"
+  override def toString: String =
+    s"Node(${this.id}: ${this.ball} Parent: ${relatedId(this.parent)} Left: ${relatedId(this.left)} Right: ${relatedId(this.right)} )"
 
 }
