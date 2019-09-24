@@ -8,12 +8,12 @@ class BallTreeCreationRNDensePointTest extends FlatSpec with Matchers with Given
   behavior of "BallTree"
 
   it should "create a BallTree with one object" in {
-    val ballTree = BallTree(EuclideanSpace, RNDensePoint(0, 0))
+    val ballTree = BallTree(EuclideanSpace(2), RNDensePoint(0, 0))
 
   }
 
   it should "create a BallTree with 2 balls" in {
-    val ballTree = BallTree(EuclideanSpace, RNDensePoint(0, 0))
+    val ballTree = BallTree(EuclideanSpace(2), RNDensePoint(0, 0))
 
   }
 

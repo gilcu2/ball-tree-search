@@ -9,7 +9,7 @@ class PlotAcceptanceTest extends FlatSpec with Matchers with GivenWhenThen {
 
   behavior of "Plot"
 
-  implicit val space = EuclideanSpace
+  implicit val space = EuclideanSpace(2)
 
   ignore should "paint the ball projection" in {
     val balls = Seq(Ball(RNDensePoint(0, 0), 1), Ball(RNDensePoint(2, 0), 1))

@@ -12,7 +12,7 @@ class BallsOperationsAcceptanceTest extends FlatSpec with Matchers with GivenWhe
 
   val showFigure = false
 
-  implicit val space = EuclideanSpace
+  implicit val space = EuclideanSpace(2)
 
   it should "partition a list of balls" in {
     val balls = Seq(

@@ -10,7 +10,7 @@ class BallsOperationsTest extends FlatSpec with Matchers with GivenWhenThen {
 
   behavior of "BallOperations"
 
-  implicit val space = EuclideanSpace
+  implicit val space = EuclideanSpace(2)
 
   it should "compute the minimum bounding ball of two balls when one is contained" in {
     val b1 = Ball(RNDensePoint(0, 0), 3)

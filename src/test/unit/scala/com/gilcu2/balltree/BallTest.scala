@@ -7,7 +7,7 @@ class BallEuclideanTest extends FlatSpec with Matchers with GivenWhenThen {
 
   behavior of "Ball"
 
-  implicit val space = EuclideanSpace
+  implicit val space = EuclideanSpace(dimension = 2)
 
   it should "confirm that the ball is contained" in {
     val b1 = Ball(RNDensePoint(0, 0), 3)

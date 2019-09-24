@@ -4,6 +4,8 @@ case class R2Point(x: Double, y: Double)
 
 trait Space[T] {
 
+  val dimension: Int
+
   def distance(p1: T, p2: T): Double
 
   def moveToward(from: T, to: T, distance: Double): T
@@ -12,7 +14,7 @@ trait Space[T] {
 
 }
 
-object EuclideanSpace extends Space[RNDensePoint] {
+case class EuclideanSpace(dimension: Int) extends Space[RNDensePoint] {
 
   override def distance(p1: RNDensePoint, p2: RNDensePoint): Double =
     (p1 - p2).norm

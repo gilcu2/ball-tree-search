@@ -50,7 +50,7 @@ object Board {
 
   def main(args: Array[String]): Unit = {
 
-    implicit val space = EuclideanSpace
+    implicit val space = EuclideanSpace(2)
     val balls = Seq(Ball(RNDensePoint(0, 0), 1), Ball(RNDensePoint(2, 0), 1))
     val board = new Board
 

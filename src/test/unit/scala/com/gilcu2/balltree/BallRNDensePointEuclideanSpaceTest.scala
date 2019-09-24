@@ -7,7 +7,7 @@ class BallRNDensePointEuclideanSpaceTest extends FlatSpec with Matchers with Giv
 
   behavior of "Ball with RNDensePoint in Euclidean space"
 
-  implicit val space = EuclideanSpace
+  implicit val space = EuclideanSpace(2)
 
   it should "return that ball is contained" in {
     val ball1 = Ball(RNDensePoint(0, 0), 3)
