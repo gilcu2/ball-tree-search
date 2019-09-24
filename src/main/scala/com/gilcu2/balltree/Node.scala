@@ -26,8 +26,8 @@ object Node {
 
 }
 
-case class Node[T](id: Int, ball: Ball[T], private var parent: Option[Node[T]] = None,
-                   private var left: Option[Node[T]] = None, private var right: Option[Node[T]] = None) {
+case class Node[T](id: Int, ball: Ball[T], var parent: Option[Node[T]] = None,
+                   var left: Option[Node[T]] = None, var right: Option[Node[T]] = None) {
 
   import Node._
 
@@ -62,12 +62,6 @@ case class Node[T](id: Int, ball: Ball[T], private var parent: Option[Node[T]] =
         insideLeft ++ insideRight
     }
   }
-
-  def getParent: Option[Node[T]] = this.parent
-
-  def getLeft: Option[Node[T]] = this.left
-
-  def getRight: Option[Node[T]] = this.right
 
   override def toString: String = s"Node(${this.ball},${childToString(this.left)},${childToString(this.right)} )"
 
