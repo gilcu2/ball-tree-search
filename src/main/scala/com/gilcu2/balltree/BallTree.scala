@@ -34,6 +34,22 @@ object BallTree {
     pair
   }
 
+  def height[T](node: Node[T]): Int = node match {
+    case Node(_, _, _, None, None) => 1
+    case Node(_, _, _, left, right) =>
+      val leftHeight = height(left.get)
+      val rightHeight = height(right.get)
+      math.max(leftHeight, rightHeight) + 1
+  }
+
+  def printLevel[T](node: Node[T], level: Int): Unit =
+    if (level == 1)
+      println(node)
+    else if (node.left.nonEmpty) {
+      printLevel(node.left.get, level - 1)
+      printLevel(node.right.get, level - 1)
+    }
+
 }
 
 class BallTree[T](space: Space[T], balls: Ball[T]*) {
@@ -43,9 +59,8 @@ class BallTree[T](space: Space[T], balls: Ball[T]*) {
   assert(balls.nonEmpty)
 
   implicit val s: Space[T] = space
-  private var nodeIdGenerator = -1
-
   val root = createTreeBottomUp
+  private var nodeIdGenerator = -1
 
 
   //  def getInside(b: Ball[T]): Seq[Ball[T]] = root.getInside(b)
@@ -89,10 +104,13 @@ class BallTree[T](space: Space[T], balls: Ball[T]*) {
     nodeIdGenerator
   }
 
-  def height(node: Node[T]): Int = node match {
-    case Node(_, _, _, None, None)
-  }
+  def height: Int = BallTree.height(root)
 
-  def printLevel
+  def print(): Unit = {
+    for (i <- 1 to height) {
+      println(s"Level $i")
+      printLevel(root, i)
+    }
+  }
 
 }

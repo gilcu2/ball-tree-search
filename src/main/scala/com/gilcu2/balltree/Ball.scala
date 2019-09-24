@@ -27,5 +27,8 @@ case class Ball[T](center: T, radio: Double = 0) {
 
   def r2Projection(implicit space: Space[T]): R2Ball = R2Ball(space.r2Projection(center), radio)
 
-
+  override def toString: String = {
+    val radioS = f"$radio%1.2f"
+    s"Ball($center,$radioS)"
+  }
 }

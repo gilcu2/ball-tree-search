@@ -29,5 +29,7 @@ case class RNDensePoint(val coordinates: Vector[Double]) {
 
   def norm: Double = sqrt(this.coordinates.map(c => c * c).sum)
 
-  override def toString: String = s"RN(${coordinates.mkString(",")})"
+  override def toString: String =
+    coordinates.map(f => f"$f%1.2f").mkString(",")
+
 }
