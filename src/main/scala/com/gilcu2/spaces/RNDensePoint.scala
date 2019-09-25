@@ -25,11 +25,15 @@ case class RNDensePoint(val coordinates: Vector[Double]) {
   def *(scalar: Double): RNDensePoint =
     new RNDensePoint(this.coordinates.map(scalar * _))
 
-  def unary_- : RNDensePoint = RNDensePoint(this.coordinates.map(-_))
+  def unary_- : RNDensePoint =
+    RNDensePoint(this.coordinates.map(-_))
 
-  def norm: Double = sqrt(this.coordinates.map(c => c * c).sum)
+  def norm: Double =
+    sqrt(this.coordinates.map(c => c * c).sum)
 
-  override def toString: String =
-    coordinates.map(f => f"$f%1.2f").mkString(",")
+  override def toString: String = {
+    val valuesS = coordinates.map(f => f"$f%1.2f").mkString(",")
+    s"RN($valuesS)"
+  }
 
 }

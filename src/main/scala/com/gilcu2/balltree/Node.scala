@@ -55,7 +55,10 @@ case class Node[T](id: Int, ball: Ball[T], var parent: Option[Node[T]] = None,
       case (false, _, _) =>
         Seq()
       case (true, None, None) =>
-        Seq(this.ball)
+        if (ball.contains(this.ball))
+          Seq(this.ball)
+        else
+          Seq()
       case _ =>
         val insideLeft = if (left.nonEmpty) left.get.getInside(ball) else Seq()
         val insideRight = if (right.nonEmpty) right.get.getInside(ball) else Seq()

@@ -13,12 +13,17 @@ object NodePair {
   }
 }
 
-case class NodePair[T](id1: Int, id2: Int, boundBall: Ball[T], volume: Double)
+case class NodePair[T](id1: Int, id2: Int, boundBall: Ball[T], volume: Double) {
+  override def toString = {
+    val volumeS = f"$volume%1.3f"
+    s"NodePair($id1,$id2,$boundBall,$volumeS)"
+  }
+}
 
 object BallTree {
 
-  def apply[T](space: Space[T], balls: Seq[Ball[T]]): BallTree[T] =
-    new BallTree(space, balls: _*)
+  def apply[T](balls: Seq[Ball[T]])(implicit space: Space[T]): BallTree[T] =
+    new BallTree(balls: _*)
 
   def findMinimumVolumePair[T](nodes: mutable.HashMap[Int, Node[T]])(implicit space: Space[T])
   : NodePair[T] = {
@@ -29,6 +34,8 @@ object BallTree {
     for (i <- 0 until size; j <- i + 1 until size) {
       val newPair = NodePair(nodes(keys(i)), nodes(keys(j)))
       if (newPair.volume < pair.volume)
+        pair = newPair
+      else if (newPair.volume == pair.volume && (newPair.id1 < pair.id1 || newPair.id2 < pair.id2))
         pair = newPair
     }
     pair
@@ -52,18 +59,25 @@ object BallTree {
 
 }
 
-class BallTree[T](space: Space[T], balls: Ball[T]*) {
+class BallTree[T](balls: Ball[T]*)(implicit space: Space[T]) {
 
   import BallTree._
 
   assert(balls.nonEmpty)
 
-  implicit val s: Space[T] = space
   val root = createTreeBottomUp
   private var nodeIdGenerator = -1
 
+  def getInside(b: Ball[T]): Seq[Ball[T]] = root.getInside(b)
 
-  //  def getInside(b: Ball[T]): Seq[Ball[T]] = root.getInside(b)
+  def print(): Unit = {
+    for (i <- 1 to height) {
+      println(s"Level $i")
+      printLevel(root, i)
+    }
+  }
+
+  def height: Int = BallTree.height(root)
 
   private def createTreeBottomUp: Node[T] = {
 
@@ -102,15 +116,6 @@ class BallTree[T](space: Space[T], balls: Ball[T]*) {
   private def getNewId: Int = {
     nodeIdGenerator += 1
     nodeIdGenerator
-  }
-
-  def height: Int = BallTree.height(root)
-
-  def print(): Unit = {
-    for (i <- 1 to height) {
-      println(s"Level $i")
-      printLevel(root, i)
-    }
   }
 
 }

@@ -29,6 +29,16 @@ class BallsOperationsTest extends FlatSpec with Matchers with GivenWhenThen {
     boundBall.contains(b2) shouldBe true
   }
 
+  it should "compute the minimum bounding ball of two balls when no coordinate is equal" in {
+    val b1 = Ball(RNDensePoint(0, 0), 1)
+    val b2 = Ball(RNDensePoint(1, 1), 1)
+
+    val boundBall = computeBoundingBall(b1, b2)
+    boundBall.radio shouldBe (math.sqrt(2) + 2) / 2
+    boundBall.contains(b1) shouldBe true
+    boundBall.contains(b2) shouldBe true
+  }
+
   it should "find the ball with bigger minimum distance to ball" in {
     val balls = Seq(Ball(RNDensePoint(1, 0), 1), Ball(RNDensePoint(3, 0), 1))
     val ball = Ball(RNDensePoint(-1, 0), 1)

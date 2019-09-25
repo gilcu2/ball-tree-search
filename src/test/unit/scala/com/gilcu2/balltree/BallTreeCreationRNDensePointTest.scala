@@ -20,8 +20,7 @@ class BallTreeCreationRNDensePointTest extends FlatSpec with Matchers with Given
 
     val minimumPair = BallTree.findMinimumVolumePair(nodes)
 
-    minimumPair.id1 shouldBe 0
-    minimumPair.id2 shouldBe 2
+    Set(minimumPair.id1, minimumPair.id2) shouldBe Set(0, 2)
 
   }
 
@@ -29,7 +28,7 @@ class BallTreeCreationRNDensePointTest extends FlatSpec with Matchers with Given
     val ball1 = Ball(RNDensePoint(0, 0), 1)
     val ball2 = Ball(RNDensePoint(0, 1), 2)
     val balls = Seq(ball1, ball2)
-    val ballTree = BallTree(EuclideanSpace(2), balls)
+    val ballTree = BallTree(balls)
 
     Set(ballTree.root.left.get.ball, ballTree.root.right.get.ball) shouldBe Set(ball1, ball2)
 
@@ -40,7 +39,7 @@ class BallTreeCreationRNDensePointTest extends FlatSpec with Matchers with Given
     val ball2 = Ball(RNDensePoint(0, 1), 1)
     val ball3 = Ball(RNDensePoint(1, 1), 1)
     val balls = Seq(ball1, ball2, ball3)
-    val ballTree = BallTree(EuclideanSpace(2), balls)
+    val ballTree = BallTree(balls)
 
     Set(ballTree.root.left.get.ball, ballTree.root.right.get.ball).contains(ball3) shouldBe true
 
@@ -51,7 +50,7 @@ class BallTreeCreationRNDensePointTest extends FlatSpec with Matchers with Given
     val ball2 = Ball(RNDensePoint(0, 1), 1)
     val ball3 = Ball(RNDensePoint(1, 1), 1)
     val balls = Seq(ball1, ball2, ball3)
-    val ballTree = BallTree(EuclideanSpace(2), balls)
+    val ballTree = BallTree(balls)
     val height = ballTree.height
 
     height shouldBe 3
@@ -63,7 +62,7 @@ class BallTreeCreationRNDensePointTest extends FlatSpec with Matchers with Given
     val ball2 = Ball(RNDensePoint(0, 1), 1)
     val ball3 = Ball(RNDensePoint(1, 1), 1)
     val balls = Seq(ball1, ball2, ball3)
-    val ballTree = BallTree(EuclideanSpace(2), balls)
+    val ballTree = BallTree(balls)
 
     ballTree.print()
 
