@@ -5,7 +5,7 @@ import com.gilcu2.spaces.{R2Point, Space}
 
 case class Ball[T](center: T, radio: Double = 0) {
 
-  def contains(b: Ball[T])(implicit space: Space[T]): Boolean =
+  def contain(b: Ball[T])(implicit space: Space[T]): Boolean =
     space.distance(this.center, b.center) + b.radio <= this.radio
 
   def volume(implicit space: Space[T]): Double = Math.PI * Math.pow(radio, space.dimension)

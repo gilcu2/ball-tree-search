@@ -68,7 +68,12 @@ class BallTree[T](balls: Ball[T]*)(implicit space: Space[T]) {
   val root = createTreeBottomUp
   private var nodeIdGenerator = -1
 
-  def getInside(b: Ball[T]): Seq[Ball[T]] = root.getInside(b)
+  def areContained(b: Ball[T]): Seq[Ball[T]] = root.areContained(b)
+
+  def contain(b: Ball[T]): Seq[Ball[T]] = root.contain(b)
+
+  def nearestMaximumDistance(b: Ball[T]): Ball[T] =
+    root.nearestMaximumDistance(b, Double.MaxValue)._1.get
 
   def print(): Unit = {
     for (i <- 1 to height) {

@@ -49,21 +49,64 @@ case class Node[T](id: Int, ball: Ball[T], var parent: Option[Node[T]] = None,
   //    }
   //  }
 
-  def getInside(ball: Ball[T])(implicit space: Space[T]): Seq[Ball[T]] = {
-    val intercept = ball.isIntercepting(this.ball)
+  def areContained(b: Ball[T])(implicit space: Space[T]): Seq[Ball[T]] = {
+    val intercept = b.isIntercepting(this.ball)
     (intercept, left, right) match {
       case (false, _, _) =>
         Seq()
       case (true, None, None) =>
-        if (ball.contains(this.ball))
+        if (b.contain(this.ball))
           Seq(this.ball)
         else
           Seq()
       case _ =>
-        val insideLeft = if (left.nonEmpty) left.get.getInside(ball) else Seq()
-        val insideRight = if (right.nonEmpty) right.get.getInside(ball) else Seq()
+        val insideLeft = left.fold(Seq[Ball[T]]())(_.areContained(b))
+        val insideRight = right.fold(Seq[Ball[T]]())(_.areContained(b))
         insideLeft ++ insideRight
     }
+  }
+
+  def contain(b: Ball[T])(implicit space: Space[T]): Seq[Ball[T]] = {
+    val contained = this.ball.contain(b)
+    (contained, left, right) match {
+      case (false, _, _) =>
+        Seq()
+      case (true, None, None) =>
+        Seq(this.ball)
+      case _ =>
+        val insideLeft = left.fold(Seq[Ball[T]]())(_.contain(b))
+        val insideRight = right.fold(Seq[Ball[T]]())(_.contain(b))
+        insideLeft ++ insideRight
+    }
+  }
+
+  def nearestMaximumDistance(b: Ball[T], bestDistance: Double)(implicit space: Space[T]): (Option[Ball[T]], Double) = {
+
+    val minimumDistance = b.minimumDistance(this.ball)
+    (minimumDistance, left, right) match {
+      case _ if minimumDistance > bestDistance =>
+        (None, 0)
+      case (_, None, None) =>
+        val distance = b.maximumDistance(this.ball)
+        if (distance < bestDistance)
+          (Some(this.ball), distance)
+        else
+          (None, 0)
+      case _ =>
+        val (bestLeftBall, distanceLeft) = left.get.nearestMaximumDistance(b, bestDistance)
+        val bestDistance1 = if (bestLeftBall.nonEmpty && distanceLeft < bestDistance) distanceLeft else bestDistance
+
+        val (bestRightBall, distanceRight) = right.get.nearestMaximumDistance(b, bestDistance1)
+        (bestLeftBall, bestRightBall) match {
+          case (None, None) =>
+            (None, 0)
+          case (_, bestRight) if bestRight.nonEmpty =>
+            (bestRightBall, distanceRight)
+          case (_, None) =>
+            (bestLeftBall, distanceLeft)
+        }
+    }
+
   }
 
   override def toString: String =

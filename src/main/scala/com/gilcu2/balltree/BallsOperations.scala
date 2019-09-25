@@ -6,8 +6,8 @@ object BallsOperations {
 
   // Using https://stackoverflow.com/questions/33532860/merge-two-spheres-to-get-a-new-one
   def computeBoundingBall[T](b1: Ball[T], b2: Ball[T])(implicit space: Space[T]): Ball[T] =
-    if (b1.contains(b2)) b1
-    else if (b2.contains(b1)) b2
+    if (b1.contain(b2)) b1
+    else if (b2.contain(b1)) b2
     else {
       val centersDistance = space.distance(b1.center, b2.center)
       val radio = (b1.radio + b2.radio + centersDistance) / 2
@@ -24,7 +24,7 @@ object BallsOperations {
     var radio = space.distance(center, b2.center) + b2.radio
     var boundingBall = Ball(center, radio)
 
-    var ballsOutside = balls.filter(!boundingBall.contains(_))
+    var ballsOutside = balls.filter(!boundingBall.contain(_))
     while (ballsOutside.nonEmpty) {
       val farthest = findLargestMaximumDistanceFrom(center, balls)
       val distance = farthest.maximumDistance(center)
@@ -32,7 +32,7 @@ object BallsOperations {
       center = space.moveToward(center, farthest.center, delta)
       radio = radio * 1.01
       boundingBall = Ball(center, radio)
-      ballsOutside = balls.filter(!boundingBall.contains(_))
+      ballsOutside = balls.filter(!boundingBall.contain(_))
     }
 
     boundingBall

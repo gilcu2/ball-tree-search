@@ -25,8 +25,8 @@ class BallsOperationsTest extends FlatSpec with Matchers with GivenWhenThen {
 
     val boundBall = computeBoundingBall(b1, b2)
     boundBall.radio shouldBe 3.5
-    boundBall.contains(b1) shouldBe true
-    boundBall.contains(b2) shouldBe true
+    boundBall.contain(b1) shouldBe true
+    boundBall.contain(b2) shouldBe true
   }
 
   it should "compute the minimum bounding ball of two balls when no coordinate is equal" in {
@@ -35,8 +35,8 @@ class BallsOperationsTest extends FlatSpec with Matchers with GivenWhenThen {
 
     val boundBall = computeBoundingBall(b1, b2)
     boundBall.radio shouldBe (math.sqrt(2) + 2) / 2
-    boundBall.contains(b1) shouldBe true
-    boundBall.contains(b2) shouldBe true
+    boundBall.contain(b1) shouldBe true
+    boundBall.contain(b2) shouldBe true
   }
 
   it should "find the ball with bigger minimum distance to ball" in {
@@ -70,7 +70,7 @@ class BallsOperationsTest extends FlatSpec with Matchers with GivenWhenThen {
     val boundingBall = computeBoundingBall(balls)
 
     balls.foreach(b =>
-      boundingBall.contains(b) shouldBe true
+      boundingBall.contain(b) shouldBe true
     )
 
   }
