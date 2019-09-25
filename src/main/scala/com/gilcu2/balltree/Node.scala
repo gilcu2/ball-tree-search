@@ -109,6 +109,36 @@ case class Node[T](id: Int, ball: Ball[T], var parent: Option[Node[T]] = None,
 
   }
 
+  def kNearestMaximumDistance(b: Ball[T], k: Int, bestDistance: Double)(implicit space: Space[T]): (Option[Ball[T]], Double) = {
+
+    val minimumDistance = b.minimumDistance(this.ball)
+    (minimumDistance, left, right) match {
+      case _ if minimumDistance > bestDistance =>
+        (None, 0)
+      case (_, None, None) =>
+        val distance = b.maximumDistance(this.ball)
+        if (distance < bestDistance)
+          (Some(this.ball), distance)
+        else
+          (None, 0)
+      case _ =>
+        val (bestLeftBall, distanceLeft) = left.get.nearestMaximumDistance(b, bestDistance)
+        val bestDistance1 = if (bestLeftBall.nonEmpty && distanceLeft < bestDistance) distanceLeft else bestDistance
+
+        val (bestRightBall, distanceRight) = right.get.nearestMaximumDistance(b, bestDistance1)
+        (bestLeftBall, bestRightBall) match {
+          case (None, None) =>
+            (None, 0)
+          case (_, bestRight) if bestRight.nonEmpty =>
+            (bestRightBall, distanceRight)
+          case (_, None) =>
+            (bestLeftBall, distanceLeft)
+        }
+    }
+
+  }
+
+
   override def toString: String =
     s"Node(${this.id}: ${this.ball} Parent: ${relatedId(this.parent)} Left: ${relatedId(this.left)} Right: ${relatedId(this.right)} )"
 
