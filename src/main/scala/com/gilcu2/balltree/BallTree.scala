@@ -5,21 +5,6 @@ import com.gilcu2.spaces.Space
 
 import scala.collection.mutable
 
-object NodePair {
-  def apply[T](node1: Node[T], node2: Node[T])(implicit space: Space[T]): NodePair[T] = {
-    val boundingBall = computeBoundingBall(node1.ball, node2.ball)
-    val volume = boundingBall.volume
-    new NodePair(node1.id, node2.id, boundingBall, volume)
-  }
-}
-
-case class NodePair[T](id1: Int, id2: Int, boundBall: Ball[T], volume: Double) {
-  override def toString = {
-    val volumeS = f"$volume%1.3f"
-    s"NodePair($id1,$id2,$boundBall,$volumeS)"
-  }
-}
-
 object BallTree {
 
   def apply[T](balls: Seq[Ball[T]])(implicit space: Space[T]): BallTree[T] =
@@ -122,5 +107,26 @@ class BallTree[T](balls: Ball[T]*)(implicit space: Space[T]) {
     nodeIdGenerator += 1
     nodeIdGenerator
   }
+
+}
+
+object NodePair {
+  def apply[T](node1: Node[T], node2: Node[T])(implicit space: Space[T]): NodePair[T] = {
+    val boundingBall = computeBoundingBall(node1.ball, node2.ball)
+    val volume = boundingBall.volume
+    new NodePair(node1.id, node2.id, boundingBall, volume)
+  }
+}
+
+case class NodePair[T](id1: Int, id2: Int, boundBall: Ball[T], volume: Double) {
+  override def toString = {
+    val volumeS = f"$volume%1.3f"
+    s"NodePair($id1,$id2,$boundBall,$volumeS)"
+  }
+}
+
+case class BallDistance[T](ball: Ball[T], distance: Double) extends Ordered[BallDistance[T]] {
+
+  override def compare(that: BallDistance[T]): Int = (that.distance - this.distance).toInt
 
 }
