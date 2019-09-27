@@ -109,31 +109,27 @@ case class Node[T](id: Int, ball: Ball[T], var parent: Option[Node[T]] = None,
 
   }
 
-  def kNearestMaximumDistance(b: Ball[T], k: Int, bestDistance: Double)(implicit space: Space[T]): (Option[Ball[T]], Double) = {
+  def kNearestMaximumDistance(b: Ball[T], k: Int,
+                              priorityQueue: BoundedPriorityQueue[BallDistance[T]]
+                             )(implicit space: Space[T]): Unit = {
 
     val minimumDistance = b.minimumDistance(this.ball)
+
+    def getMaximumDistanceInQueue: Double =
+      if (priorityQueue.size == k) priorityQueue.peek.distance else Double.MaxValue
+
+    val maximumDistanceInQueue = getMaximumDistanceInQueue
     (minimumDistance, left, right) match {
-      case _ if minimumDistance > bestDistance =>
-        (None, 0)
+
+      case _ if minimumDistance > maximumDistanceInQueue =>
+
       case (_, None, None) =>
         val distance = b.maximumDistance(this.ball)
-        if (distance < bestDistance)
-          (Some(this.ball), distance)
-        else
-          (None, 0)
+        if (distance < maximumDistanceInQueue)
+          priorityQueue += BallDistance(this.ball, distance)
       case _ =>
-        val (bestLeftBall, distanceLeft) = left.get.nearestMaximumDistance(b, bestDistance)
-        val bestDistance1 = if (bestLeftBall.nonEmpty && distanceLeft < bestDistance) distanceLeft else bestDistance
-
-        val (bestRightBall, distanceRight) = right.get.nearestMaximumDistance(b, bestDistance1)
-        (bestLeftBall, bestRightBall) match {
-          case (None, None) =>
-            (None, 0)
-          case (_, bestRight) if bestRight.nonEmpty =>
-            (bestRightBall, distanceRight)
-          case (_, None) =>
-            (bestLeftBall, distanceLeft)
-        }
+        left.get.kNearestMaximumDistance(b, k, priorityQueue)
+        right.get.kNearestMaximumDistance(b, k, priorityQueue)
     }
 
   }

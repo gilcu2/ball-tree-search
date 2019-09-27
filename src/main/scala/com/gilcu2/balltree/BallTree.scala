@@ -60,6 +60,13 @@ class BallTree[T](balls: Ball[T]*)(implicit space: Space[T]) {
   def nearestMaximumDistance(b: Ball[T]): Ball[T] =
     root.nearestMaximumDistance(b, Double.MaxValue)._1.get
 
+  def kNearestMaximumDistance(b: Ball[T], k: Int): Seq[Ball[T]] = {
+    val queue = new BoundedPriorityQueue[BallDistance[T]](k)
+    root.kNearestMaximumDistance(b, k, queue)
+    val sorted = queue.getSortedAndClear()
+    sorted.map(_.ball)
+  }
+
   def print(): Unit = {
     for (i <- 1 to height) {
       println(s"Level $i")

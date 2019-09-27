@@ -37,6 +37,12 @@ class BoundedPriorityQueueTest extends FlatSpec with Matchers with GivenWhenThen
     queue += BallDistance(Ball(RNDensePoint(0, 1), 1), 2)
     queue.peek.distance shouldBe 3
 
+    queue.getSortedAndClear() shouldBe Seq(
+      BallDistance(Ball(RNDensePoint(0, 0), 1), 1),
+      BallDistance(Ball(RNDensePoint(0, 1), 1), 2),
+      BallDistance(Ball(RNDensePoint(0, 2), 1), 3)
+    )
+
   }
 
 }

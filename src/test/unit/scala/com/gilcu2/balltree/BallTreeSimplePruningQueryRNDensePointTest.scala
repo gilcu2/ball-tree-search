@@ -4,6 +4,8 @@ import com.gilcu2.spaces.RNDensePoint.toBall
 import com.gilcu2.spaces._
 import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
 
+import scala.util.Random
+
 class BallTreeSimplePruningQueryRNDensePointTest extends FlatSpec with Matchers with GivenWhenThen {
 
   behavior of "BallTree"
@@ -92,6 +94,34 @@ class BallTreeSimplePruningQueryRNDensePointTest extends FlatSpec with Matchers 
     val ballTree = BallTree(balls)
 
     ballTree.contain(Ball(RNDensePoint(0.5, 0.5), 1.5)).toSet shouldBe Set()
+
+  }
+
+  it should "areContained ball query should return the same balls than the brute force algorithm" in {
+    val generator = new Random(100)
+    val balls = (1 to 10).map(i => Ball.random(generator, dim = 2))
+    val query = Ball.random(generator, dim = 2)
+
+    val bruteResults = balls.filter(b => query.contain(b)).toSet
+
+    val tree = BallTree(balls)
+    val treeResults = tree.areContained(query).toSet
+
+    treeResults shouldBe bruteResults
+
+  }
+
+  it should "contain ball query should return the same balls than the brute force algorithm" in {
+    val generator = new Random(100)
+    val balls = (1 to 10).map(i => Ball.random(generator, dim = 2))
+    val query = Ball.random(generator, dim = 2)
+
+    val bruteResults = balls.filter(b => b.contain(query)).toSet
+
+    val tree = BallTree(balls)
+    val treeResults = tree.contain(query).toSet
+
+    treeResults shouldBe bruteResults
 
   }
 

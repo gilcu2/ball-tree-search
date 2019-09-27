@@ -1,7 +1,18 @@
 package com.gilcu2.balltree
 
 import com.gilcu2.plotting.R2Ball
-import com.gilcu2.spaces.{R2Point, Space}
+import com.gilcu2.spaces.{R2Point, RNDensePoint, Space}
+
+import scala.util.Random
+
+object Ball {
+
+  def random(generator: Random, dim: Int): Ball[RNDensePoint] = {
+    val coordinates = (1 to dim).map(i => generator.nextDouble()).toVector
+    Ball(RNDensePoint(coordinates), generator.nextDouble())
+  }
+
+}
 
 case class Ball[T](center: T, radio: Double = 0) {
 

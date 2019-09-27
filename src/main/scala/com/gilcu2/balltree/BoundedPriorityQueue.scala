@@ -5,9 +5,10 @@ import java.util.{PriorityQueue => JPriorityQueue}
 
 import scala.collection.JavaConverters._
 import scala.collection.generic.Growable
+import scala.collection.mutable
 
 /**
- * Bounded priority queue take from Apache Spark. This class wraps the original PriorityQueue
+ * Bounded priority queue take from Apache Spark with peek. This class wraps the original PriorityQueue
  * class and modifies it such that only the top K elements are retained.
  * The top K elements are defined by an implicit Ordering[A].
  */
@@ -40,6 +41,13 @@ class BoundedPriorityQueue[A](maxSize: Int)(implicit ord: Ordering[A])
 
   override def +=(elem1: A, elem2: A, elems: A*): this.type = {
     this += elem1 += elem2 ++= elems
+  }
+
+  def getSortedAndClear(): Seq[A] = {
+    val accumulator = scala.collection.mutable.ListBuffer[A]()
+    while (underlying.size() > 0)
+      accumulator += underlying.poll()
+    accumulator.toSeq.reverse
   }
 
   override def clear() {
