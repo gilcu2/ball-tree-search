@@ -79,6 +79,7 @@ class BallTreeBrandBounchQueryRNDensePointTest extends FlatSpec with Matchers wi
     val desiredResults = sortedResults.take(k).map(_._1)
 
     val tree = BallTree(balls)
+    tree.print()
     val treeResults = tree.kNearestMaximumDistance(query, k)
 
     treeResults shouldBe desiredResults

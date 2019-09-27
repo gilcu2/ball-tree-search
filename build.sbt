@@ -14,9 +14,14 @@ version := "0.1"
 
 scalaVersion := "2.12.8"
 
+resolvers += Resolver.bintrayRepo("cibotech", "public")
+resolvers += "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
+
 libraryDependencies ++= Seq(
 
   "org.creativescala" %% "doodle" % "0.9.4",
+  "com.cibo" %% "evilplot" % "0.6.3",
+  "com.github.darrenjw" %% "scala-view" % "0.6-SNAPSHOT",
 
   "org.scalatest" %% "scalatest" % "3.0.8" % "test"
 )
