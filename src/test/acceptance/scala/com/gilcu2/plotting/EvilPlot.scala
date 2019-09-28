@@ -13,7 +13,7 @@ class EvilPlotTest extends FlatSpec with Matchers with GivenWhenThen {
 
   behavior of "EvilPlot"
 
-  it should "paint xy plot" in {
+  ignore should "paint xy plot" in {
 
     val data = Seq.tabulate(100) { i =>
       Point(i.toDouble, scala.util.Random.nextDouble())
@@ -23,7 +23,18 @@ class EvilPlotTest extends FlatSpec with Matchers with GivenWhenThen {
       xLabel("x").yLabel("y").render()
 
     scalaview.SfxImageViewer(biResize(plot.asBufferedImage, 1000, 800, SCALE_SMOOTH))
-    println("Done")
+  }
+
+  ignore should "paint scatter plot" in {
+
+    val data = Seq.tabulate(100) { i =>
+      Point(i.toDouble, scala.util.Random.nextDouble())
+    }
+    val plot = ScatterPlot.series(data, "Line graph", HSL(210, 100, 56)).
+      xAxis().yAxis().frame().
+      xLabel("x").yLabel("y").render()
+
+    scalaview.SfxImageViewer(biResize(plot.asBufferedImage, 1000, 800, SCALE_SMOOTH))
   }
 
 }
