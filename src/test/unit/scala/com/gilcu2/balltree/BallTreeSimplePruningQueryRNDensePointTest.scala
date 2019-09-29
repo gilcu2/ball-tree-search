@@ -98,9 +98,9 @@ class BallTreeSimplePruningQueryRNDensePointTest extends FlatSpec with Matchers 
   }
 
   it should "areContained ball query should return the same balls than the brute force algorithm" in {
-    val generator = new Random(100)
-    val balls = (1 to 10).map(i => Ball.random(generator, dim = 2))
-    val query = Ball.random(generator, dim = 2)
+    implicit val generator = new Random(100)
+    val balls = (1 to 10).map(i => Ball.random(dim = 2))
+    val query = Ball.random(dim = 2)
 
     val bruteResults = balls.filter(b => query.contain(b)).toSet
 
@@ -112,9 +112,9 @@ class BallTreeSimplePruningQueryRNDensePointTest extends FlatSpec with Matchers 
   }
 
   it should "contain ball query should return the same balls than the brute force algorithm" in {
-    val generator = new Random(100)
-    val balls = (1 to 10).map(i => Ball.random(generator, dim = 2))
-    val query = Ball.random(generator, dim = 2)
+    implicit val generator = new Random(100)
+    val balls = (1 to 10).map(i => Ball.random(dim = 2))
+    val query = Ball.random(dim = 2)
 
     val bruteResults = balls.filter(b => b.contain(query)).toSet
 

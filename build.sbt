@@ -19,7 +19,7 @@ resolvers += "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositor
 
 libraryDependencies ++= Seq(
 
-  "org.creativescala" %% "doodle" % "0.9.4",
+  "org.creativescala" %% "doodle" % "0.9.7",
   "com.cibo" %% "evilplot" % "0.6.3",
   "com.github.darrenjw" %% "scala-view" % "0.6-SNAPSHOT",
 

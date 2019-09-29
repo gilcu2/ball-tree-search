@@ -7,9 +7,9 @@ import scala.util.Random
 
 object Ball {
 
-  def random(generator: Random, dim: Int): Ball[RNDensePoint] = {
-    val coordinates = (1 to dim).map(i => generator.nextDouble()).toVector
-    Ball(RNDensePoint(coordinates), generator.nextDouble())
+  def random(dim: Int, factor: Double = 1)(implicit generator: Random): Ball[RNDensePoint] = {
+    val coordinates = (1 to dim).map(i => factor * generator.nextDouble()).toVector
+    Ball(RNDensePoint(coordinates), factor * generator.nextDouble())
   }
 
 }

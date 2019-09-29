@@ -1,8 +1,8 @@
-package com.gilcu2.plotting
+package com.gilcu2.plotting.doodle
 
 import com.gilcu2.balltree.Ball
+import com.gilcu2.plotting.{R2Ball, R2Range, View}
 import com.gilcu2.spaces.{EuclideanSpace, RNDensePoint, Space}
-
 import scala.collection.mutable
 import doodle.core._
 import doodle.image._
@@ -10,6 +10,9 @@ import doodle.image.syntax._
 import doodle.java2d._
 import scala.io.StdIn.readChar
 import cats.implicits._
+
+import scala.collection.mutable
+import scala.io.StdIn.readChar
 
 class Board {
 

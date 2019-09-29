@@ -1,13 +1,14 @@
 package com.gilcu2.balltree
 
-import com.gilcu2.spaces.Space
+import com.gilcu2.balltree.BallTree.printLevel
+import com.gilcu2.spaces.{RNDensePoint, Space}
 
 
 object Node {
 
-  def apply[T](id: Int, b: Ball[T], parent: Option[Node[T]] = None,
+  def apply[T](id: Int, b: Ball[T], level: Int, parent: Option[Node[T]] = None,
                left: Option[Node[T]] = None, right: Option[Node[T]] = None): Node[T] =
-    new Node(id, b, parent, left, right)
+    new Node(id, b, level, parent, left, right)
 
   //  def bestBall[T](b1: Ball[T], b2: Ball[T])(implicit space: Space[T]): Node[T] = {
   //    if (b1.contains(b2)) Node(b1)
@@ -26,7 +27,7 @@ object Node {
 
 }
 
-case class Node[T](id: Int, ball: Ball[T], var parent: Option[Node[T]] = None,
+case class Node[T](id: Int, ball: Ball[T], level: Int, var parent: Option[Node[T]] = None,
                    var left: Option[Node[T]] = None, var right: Option[Node[T]] = None) {
 
   import Node._
@@ -136,6 +137,8 @@ case class Node[T](id: Int, ball: Ball[T], var parent: Option[Node[T]] = None,
 
 
   override def toString: String =
-    s"Node(${this.id}: ${this.ball} Parent: ${relatedId(this.parent)} Left: ${relatedId(this.left)} Right: ${relatedId(this.right)} )"
+    s"Node(${this.id}: ${this.ball} level: $level Parent: ${relatedId(this.parent)} Left: ${relatedId(this.left)} Right: ${relatedId(this.right)} )"
+
+
 
 }

@@ -1,7 +1,7 @@
 package com.gilcu2.balltree
 
 import com.gilcu2.balltree.BallsOperations._
-import com.gilcu2.plotting.Board
+import com.gilcu2.plotting.doodle.Board
 import com.gilcu2.spaces.{EuclideanSpace, RNDensePoint}
 import doodle.core.Color
 import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}

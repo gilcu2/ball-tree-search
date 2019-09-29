@@ -1,5 +1,6 @@
 package com.gilcu2.balltree
 
+import com.cibo.evilplot.numeric.Datum2d
 import com.gilcu2.balltree.BallsOperations._
 import com.gilcu2.spaces.Space
 
@@ -26,21 +27,23 @@ object BallTree {
     pair
   }
 
-  def height[T](node: Node[T]): Int = node match {
-    case Node(_, _, _, None, None) => 1
-    case Node(_, _, _, left, right) =>
-      val leftHeight = height(left.get)
-      val rightHeight = height(right.get)
-      math.max(leftHeight, rightHeight) + 1
-  }
-
   def printLevel[T](node: Node[T], level: Int): Unit =
-    if (level == 1)
+    if (node.level == level)
       println(node)
     else if (node.left.nonEmpty) {
-      printLevel(node.left.get, level - 1)
-      printLevel(node.right.get, level - 1)
+      printLevel(node.left.get, level)
+      printLevel(node.right.get, level)
     }
+
+  def render[T](node: Node[T])(implicit space: Space[T]): Seq[BallTreeDraw] = {
+    val r2 = space.r2Projection(node.ball.center)
+    val current =
+      Seq(BallTreeDraw(r2.x, r2.y, node.id, node.ball.radio, node.level))
+    val children = if (node.left.nonEmpty)
+      render(node.left.get) ++ render(node.right.get)
+    else Seq()
+    current ++ children
+  }
 
 }
 
@@ -68,13 +71,15 @@ class BallTree[T](balls: Ball[T]*)(implicit space: Space[T]) {
   }
 
   def print(): Unit = {
-    for (i <- 1 to height) {
+    for (i <- height - 1 to 0 by -1) {
       println(s"Level $i")
       printLevel(root, i)
     }
   }
 
-  def height: Int = BallTree.height(root)
+  def height: Int = root.level + 1
+
+  def render: Seq[BallTreeDraw] = BallTree.render(root).reverse
 
   private def createTreeBottomUp: Node[T] = {
 
@@ -82,7 +87,7 @@ class BallTree[T](balls: Ball[T]*)(implicit space: Space[T]) {
       val nodesNotIncluded = mutable.HashMap[Int, Node[T]]()
       balls.foreach(b => {
         val id: Int = getNewId
-        nodesNotIncluded(id) = Node(id, b)
+        nodesNotIncluded(id) = Node(id, b, 0)
       })
       nodesNotIncluded
     }
@@ -90,9 +95,12 @@ class BallTree[T](balls: Ball[T]*)(implicit space: Space[T]) {
     def findPairAndUpdate(nodesNotIncluded: mutable.HashMap[Int, Node[T]]): Unit = {
       val id = getNewId
       val minimumPair = findMinimumVolumePair(nodesNotIncluded)
-      val newNode = Node(id, minimumPair.boundBall,
-        left = Some(nodesNotIncluded(minimumPair.id1)),
-        right = Some(nodesNotIncluded(minimumPair.id2))
+      val nodeLeft = nodesNotIncluded(minimumPair.id1)
+      val nodeRight = nodesNotIncluded(minimumPair.id2)
+      val level = Math.max(nodeLeft.level, nodeRight.level) + 1
+      val newNode = Node(id, minimumPair.boundBall, level,
+        left = Some(nodeLeft),
+        right = Some(nodeRight)
       )
       newNode.left.get.parent = Some(newNode)
       newNode.right.get.parent = Some(newNode)
@@ -136,4 +144,12 @@ case class BallDistance[T](ball: Ball[T], distance: Double) extends Ordered[Ball
 
   override def compare(that: BallDistance[T]): Int = (that.distance - this.distance).toInt
 
+}
+
+case class BallTreeDraw(x: Double, y: Double, id: Int, radio: Double, level: Int) extends Datum2d[BallTreeDraw] {
+  def withXY(x: Double, y: Double): BallTreeDraw = this.copy(x, y)
+
+  override def toString: String = {
+    f"BallTreeEvil($id,$x%1.2f,$y%1.2f,$radio%1.2f,$level)"
+  }
 }

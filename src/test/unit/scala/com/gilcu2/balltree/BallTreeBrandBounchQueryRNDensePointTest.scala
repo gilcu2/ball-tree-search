@@ -68,11 +68,11 @@ class BallTreeBrandBounchQueryRNDensePointTest extends FlatSpec with Matchers wi
   }
 
   it should "ball nearest neighbors query should return the same balls than the brute force algorithm" in {
-    val generator = new Random(100)
+    implicit val generator = new Random(100)
     val n = 3
     val k = 2
-    val balls = (1 to n).map(i => Ball.random(generator, dim = 2))
-    val query = Ball.random(generator, dim = 2)
+    val balls = (1 to n).map(i => Ball.random(dim = 2))
+    val query = Ball.random(dim = 2)
 
 
     val sortedResults = balls.map(b => (b, b.maximumDistance(query))).sortBy(_._2)
