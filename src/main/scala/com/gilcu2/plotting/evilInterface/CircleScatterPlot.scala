@@ -1,4 +1,4 @@
-package com.gilcu2.plotting.evil
+package com.gilcu2.plotting.evilInterface
 
 import com.cibo.evilplot.colors.Color
 import com.cibo.evilplot.geometry.{Drawable, Extent, Style, Text}

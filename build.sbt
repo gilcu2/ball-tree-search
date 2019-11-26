@@ -12,14 +12,14 @@ name := "ball-tree-search"
 
 version := "0.1"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.12.10"
 
 resolvers += Resolver.bintrayRepo("cibotech", "public")
 resolvers += "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 
 libraryDependencies ++= Seq(
 
-  "org.creativescala" %% "doodle" % "0.9.7",
+  "org.creativescala" %% "doodle" % "0.9.9",
   "com.cibo" %% "evilplot" % "0.6.3",
   "com.github.darrenjw" %% "scala-view" % "0.6-SNAPSHOT",
 

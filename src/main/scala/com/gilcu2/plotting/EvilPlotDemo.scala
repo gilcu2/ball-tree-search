@@ -9,7 +9,7 @@ import com.cibo.evilplot.plot._
 import com.cibo.evilplot.plot.aesthetics.DefaultTheme._
 import com.cibo.evilplot.plot.renderers.PointRenderer
 import com.gilcu2.balltree.{Ball, BallTree, BallTreeDraw}
-import com.gilcu2.plotting.evil.{CircleRenderer, CircleScatterPlot}
+import com.gilcu2.plotting.evilInterface.{CircleRenderer, CircleScatterPlot}
 import com.gilcu2.spaces.EuclideanSpace
 import scalaview.Utils._
 

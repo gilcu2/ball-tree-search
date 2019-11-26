@@ -1,4 +1,4 @@
-package com.gilcu2.plotting.doodle
+package com.gilcu2.plotting.doodleInterface
 
 import com.gilcu2.balltree.Ball
 import com.gilcu2.plotting.{R2Ball, R2Range, View}
