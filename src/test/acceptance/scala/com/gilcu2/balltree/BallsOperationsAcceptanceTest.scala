@@ -36,7 +36,7 @@ class BallsOperationsAcceptanceTest extends FlatSpec with Matchers with GivenWhe
       Set(Ball(RNDensePoint(3, 0), 1), Ball(RNDensePoint(4, 0), 1))
     )
 
-    StdIn.readChar()
+//    StdIn.readChar()
 
   }
 

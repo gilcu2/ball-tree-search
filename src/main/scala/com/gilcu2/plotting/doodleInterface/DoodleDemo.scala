@@ -46,6 +46,7 @@ object DoodleDemo {
     val query = Ball.random(dim = 2)
 
     val tree = BallTree(balls)
+    tree.print
     val data = tree.render
 
     val circles = data.map(b => Image.circle(2 * b.radio).at(b.x, b.y).strokeColor(colors(b.level)))
@@ -55,6 +56,7 @@ object DoodleDemo {
     })
 
     board.draw()
+    println("End")
   }
 
 

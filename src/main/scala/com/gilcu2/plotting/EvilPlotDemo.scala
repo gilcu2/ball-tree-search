@@ -26,7 +26,7 @@ object EvilPlotDemo {
     //    val plot=ScatterPlotDemo
     //    val plot = PointRendererDemo
     val plot = CircleRendererDemo
-    //    val plot = BallTreeRendererDemo
+//    val plot = BallTreeRendererDemo
 
     scalaview.SfxImageViewer(biResize(plot.asBufferedImage, 1000, 800, SCALE_SMOOTH))
 
