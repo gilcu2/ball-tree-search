@@ -12,6 +12,11 @@ object Ball {
     Ball(RNDensePoint(coordinates), factor * generator.nextDouble())
   }
 
+  def randomFixedRadio(dim: Int, radio: Int, factor: Double = 1)(implicit generator: Random): Ball[RNDensePoint] = {
+    val coordinates = (1 to dim).map(i => factor * generator.nextDouble()).toVector
+    Ball(RNDensePoint(coordinates), factor * radio)
+  }
+
 }
 
 case class Ball[T](center: T, radio: Double = 0) {

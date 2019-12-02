@@ -1,5 +1,6 @@
 package com.gilcu2.balltree
 
+import com.gilcu2.plotting.doodleInterface.Board
 import com.gilcu2.spaces.RNDensePoint.toBall
 import com.gilcu2.spaces._
 import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
@@ -72,14 +73,16 @@ class BallTreeBrandBounchQueryRNDensePointTest extends FlatSpec with Matchers wi
     val n = 3
     val k = 2
     val balls = (1 to n).map(i => Ball.random(dim = 2))
-    val query = Ball.random(dim = 2)
+    val query = Ball.randomFixedRadio(dim = 2, radio = 0)
     println(s"Query: $query")
+
 
     val sortedResults = balls.map(b => (b, b.maximumDistance(query))).sortBy(_._2)
     val desiredResults = sortedResults.take(k).map(_._1).toList
 
     val tree = BallTree(balls)
     tree.print()
+    Board.draw(tree, query)
     val treeResults = tree.kNearestMaximumDistance(query, k)
 
     treeResults shouldBe desiredResults
